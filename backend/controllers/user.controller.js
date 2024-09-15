@@ -6,7 +6,9 @@ const getUserForSidebar = async (req, res) => {
         const loggedInUserId = req.user._id
 
         //get all users except the logged in user, "ne" means not equal
-        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password")
+        const filteredUsers = await User
+            .find({ _id: { $ne: loggedInUserId } })
+            .select("-password")
 
         return res
             .status(200)

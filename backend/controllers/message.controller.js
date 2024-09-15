@@ -1,4 +1,3 @@
-import { populate } from "dotenv"
 import { Conversation } from "../models/conversation.model.js"
 import { Message } from "../models/message.model.js"
 
@@ -38,7 +37,7 @@ const sendMessage = async (req, res) => {
         // await conversation.save()
         // await newMessage.save()
 
-        //this will run in parallel
+        //this will run both the above two lines of code in parallel
         await Promise.all([conversation.save(), newMessage.save()])
 
         return res
@@ -58,9 +57,9 @@ const getMessages = async (req, res) => {
         const { id: userToChatId } = req.params
         const senderId = req.user._id
 
-        const conversation = await Conversation.findOne({
-            participants: { $all: [senderId, userToChatId] }
-        }).populate("messages")   //populate helps to get the actual message object instead of just the id
+        const conversation = await Conversation
+            .findOne({ participants: { $all: [senderId, userToChatId] } })
+            .populate("messages")   //populate helps to get the actual message object instead of just the id
 
         if (!conversation) {
             return res
