@@ -29,7 +29,7 @@ const useLogin = () => {
             localStorage.setItem("chat-user", JSON.stringify(data))
             setAuthUser(data)
 
-            toast.success("Logged in successfully")
+            toast.success(`Welcome back ${data.fullName}` || "Logged in successfully")
 
         } catch (error) {
             toast.error(error.message || "Something went wrong")
