@@ -19,6 +19,7 @@ const useLogout = () => {
 
             if (!res.ok) {
                 toast.error(data.message || "Something went wrong")
+                return;
             }
 
             localStorage.removeItem("chat-user")
