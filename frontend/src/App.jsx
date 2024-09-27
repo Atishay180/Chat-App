@@ -5,8 +5,8 @@ import Home from './pages/home/Home'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Toaster } from "react-hot-toast"
 import { useAuthContext } from './context/AuthContext'
-import UserAccount from './components/userAccount/UserAccount'
 import UserAccountLogo from './components/userAccount/UserAccountLogo'
+import UserAccount from './pages/account/UserAccount'
 
 const App = () => {
   const { authUser } = useAuthContext();

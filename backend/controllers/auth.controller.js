@@ -107,6 +107,54 @@ const login = async (req, res) => {
     }
 }
 
+const editProfile = async (req, res) => {
+    try {
+        const { fullName, username, gender } = req.body
+
+        const user = await User.findById(req.user._id)
+
+        if (username && username !== user.username) {
+            const existingUser = await User.findOne({ username })
+            if (existingUser) {
+                return res
+                    .status(400)
+                    .json({ message: "Username already exists" })
+            }
+            user.username = username
+        }
+
+        if (fullName && fullName.trim() !== "") {
+            user.fullName = fullName
+        }
+
+        if (gender && gender.trim() !== "") {
+            const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`
+            const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`
+
+            user.gender = gender
+            user.profilePic = gender === "male" ? boyProfilePic : girlProfilePic
+        }
+
+        await user.save()
+
+        return res
+            .status(200)
+            .json({
+                _id: user._id,
+                fullName: user.fullName,
+                username: user.username,
+                profilePic: user.profilePic
+            })
+
+    } catch (error) {
+        console.log("Error in editProfile controller: ", error.message)
+        return res
+            .status(500)
+            .json({ error: "Internal Server Error" })
+
+    }
+}
+
 const logout = async (req, res) => {
     try {
         res.cookie("jwt", "", { maxAge: 0 })   // ("name of cookie", "value", "options")
@@ -122,4 +170,4 @@ const logout = async (req, res) => {
     }
 }
 
-export { signup, login, logout }
+export { signup, login, logout, editProfile }

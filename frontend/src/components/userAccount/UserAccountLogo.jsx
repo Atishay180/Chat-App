@@ -36,9 +36,16 @@ const UserAccountLogo = () => {
                 <IoMdArrowRoundBack onClick={handleBackBtn} className="w-6 h-6 text-white cursor-pointer" />
             }
 
-            <span onClick={handleAccount} className='bg-black p-3 rounded-full cursor-pointer hover:bg-sky-500'>
-                <FaUser className='text-2xl text-white' />
-            </span>
+            {/* <span onClick={handleAccount} className='bg-black p-3 rounded-full cursor-pointer hover:bg-sky-500'> */}
+            {!authUser &&
+                <span onClick={handleAccount} className='bg-black p-3 rounded-full cursor-pointer hover:bg-sky-500'>
+                    <FaUser className='text-2xl text-white' />
+                </span>
+            }
+
+            {authUser && <div onClick={handleAccount} className='w-12 rounded-full cursor-pointer ring ring-black ring-offset-base-100 ring-offset-0 hover:ring-sky-500'>
+                <img src={authUser.profilePic} alt='Profile' />
+            </div>}
         </div>
     )
 }
