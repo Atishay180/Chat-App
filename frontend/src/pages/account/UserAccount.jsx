@@ -3,10 +3,18 @@ import GenderCheckbox from '../signup/GenderCheckbox'
 import { useAuthContext } from '../../context/AuthContext'
 import useEditProfile from '../../hooks/useEditProfile';
 
+import { FaEdit } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+
 const UserAccount = () => {
 
     const { authUser } = useAuthContext();
     const { editProfile, loading } = useEditProfile();
+
+    const [disable, setDisable] = useState({
+        fullName: true,
+        username: true,
+    });
 
     const [input, setInput] = useState({
         fullName: '',
@@ -24,6 +32,10 @@ const UserAccount = () => {
         setInput({
             fullName: '',
             username: '',
+        })
+        setDisable({
+            fullName: true,
+            username: true,
         })
     }
 
@@ -45,24 +57,54 @@ const UserAccount = () => {
                         <label className='label p-2'>
                             <span className='text-base label-text'>Full Name</span>
                         </label>
-                        <input
-                            value={input.fullName}
-                            onChange={(e) => setInput({ ...input, fullName: e.target.value })}
-                            type='text'
-                            className='w-full input input-bordered h-10'
-                        />
+                        <div className="relative flex items-center">
+                            <input
+                                disabled={disable.fullName}
+                                value={input.fullName}
+                                onChange={(e) => setInput({ ...input, fullName: e.target.value })}
+                                type='text'
+                                className='w-full input input-bordered h-10 disabled:cursor-not-allowed'
+                            />
+
+                            {disable.fullName ?
+                                <FaEdit
+                                    onClick={() => setDisable({ ...disable, fullName: !disable.fullName })}
+                                    className="absolute right-3 text-2xl text-gray-500 cursor-pointer"
+                                />
+                                :
+                                <IoMdClose
+                                    onClick={() => setDisable({ ...disable, fullName: !disable.fullName })}
+                                    className="absolute right-3 text-2xl text-gray-500 cursor-pointer"
+                                />
+                            }
+                        </div>
                     </div>
 
                     <div>
                         <label className='label p-2 '>
                             <span className='text-base label-text'>Username</span>
                         </label>
-                        <input
-                            value={input.username}
-                            onChange={(e) => setInput({ ...input, username: e.target.value })}
-                            type='text'
-                            className='w-full input input-bordered h-10'
-                        />
+                        <div className="relative flex items-center">
+                            <input
+                                disabled={disable.username}
+                                value={input.username}
+                                onChange={(e) => setInput({ ...input, username: e.target.value })}
+                                type='text'
+                                className='w-full input input-bordered h-10 disabled:cursor-not-allowed'
+                            />
+
+                            {disable.username ?
+                                <FaEdit
+                                    onClick={() => setDisable({ ...disable, username: !disable.username })}
+                                    className="absolute right-3 text-2xl text-gray-500 cursor-pointer"
+                                />
+                                :
+                                <IoMdClose
+                                    onClick={() => setDisable({ ...disable, username: !disable.username })}
+                                    className="absolute right-3 text-2xl text-gray-500 cursor-pointer"
+                                />
+                            }
+                        </div>
                     </div>
 
                     {/* Gender Selection */}
@@ -77,8 +119,8 @@ const UserAccount = () => {
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
